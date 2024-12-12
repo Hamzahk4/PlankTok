@@ -1,0 +1,41 @@
+body{
+    background-image: url("pl.jpg");
+    background-size: cover; /* Make sure the image covers the entire background */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+}
+
+.container{
+    background: rgb(255, 255, 255);
+    opacity: 0.9;
+    max-width: 50%; 
+    margin: auto; /* this helps centering */
+    border: 3px solid rgb(77, 73, 73);
+    border-radius: 10px;
+    padding: 2%;
+}
+
+h1{
+    font-size: 100px;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color:rgb(48, 117, 196);
+    margin-top: -20px;
+    margin-bottom: -10px;
+}
+
+h3{
+    color:rgb(138, 209, 124);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h4{
+    font-style: italic;
+}
+
+img{
+    width: 200px;
+}
+h6{
+    text-align: center;
+}

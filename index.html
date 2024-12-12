@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLANTOK VERSION 1.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PlankTok</h1>
+        <h6>better than TikTok.</h6>
+        <div id="commentsContainer"></div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const postsUrl = 'https://jsonplaceholder.typicode.com/posts';
+            const photosUrl = 'https://jsonplaceholder.typicode.com/photos';
+            const usersUrl = 'https://jsonplaceholder.typicode.com/users';
+            const commentsContainer = document.getElementById("commentsContainer");
+            //setting links, and container for the thingies
+            Promise.all([
+                fetch(postsUrl).then(response => response.json()),
+                fetch(photosUrl).then(response => response.json()),
+                fetch(usersUrl).then(response => response.json())
+                //fetching posts and photos and converting output to json
+            ])
+            .then(([postsData, photosData, usersData]) => { // the parameters are postsurl and photosurl from the promise.all
+                const totalPosts = postsData.length;
+                const totalPhotos = photosData.length;
+                const totalUsers = usersData.length;
+                const numPosts = Math.min(10, totalPosts); //want 10 posts 
+                commentsContainer.innerHTML = ''; //empty it
+                for (let i = 0; i < numPosts; i++) {
+                    const randomPostIndex = Math.floor(Math.random() * totalPosts);
+                    const post = postsData[randomPostIndex];
+                    const randomPhotoIndex = Math.floor(Math.random() * totalPhotos);
+                    const photo = photosData[randomPhotoIndex];
+                    //gathering a photo and the ARRAY OF THE POST.
+                    //creating div for container
+                    let user = null; 
+                    for (let j = 0; j < usersData.length; j++) { 
+                        if (usersData[j].id === post.userId) 
+                        { user = usersData[j]; break; 
+
+                        } 
+                    }
+                    const postElement = document.createElement("div");
+                    postElement.classList.add("post");
+                    //adding the parts to the div
+                    postElement.innerHTML = `
+                        <h3>${post.title}</h3>
+                        <h4>${user.name}</h4>
+                        <p>${post.body}</p>
+                        <img src="${photo.url}" alt="${photo.title}" style="max-width: 100%; height: auto; margin-top: 10px;">
+                        <hr>
+                    `;
+                    // combining the elements to make the full post
+                    commentsContainer.appendChild(postElement);
+                    //updating the HTML with the new post
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
+            // have to catch if for some reason the fetch doesnt work
+        });
+    </script>
+</body>
+</html>
